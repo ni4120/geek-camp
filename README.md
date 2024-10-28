@@ -1,5 +1,15 @@
 ## AI大喜利 アプリ
 
+AI大喜利アプリをクローン
+```bash
+git clone git@github.com:ni4120/geek-camp.git
+```
+
+node_modulesをインストール
+```bash
+npm i
+```
+
 開発サーバーを起動する
 
 ```bash
