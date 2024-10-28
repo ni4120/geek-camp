@@ -25,7 +25,7 @@ npm run dev
 2. `New project`で新規プロジェクトを作成。
 3. `Project Name`、`Database Password`、`Region`を設定し、Create new projectを押す。
 4. プロジェクトが作成されたら、右上にある緑色のconnectボタンをクリック。
-5. ORMsを選択し、`.env`ファイルに`DATABASE_URL`と`DIRECT_URL`をコピー。
+5. ORMsを選択し、`.env`ファイルを作成し`DATABASE_URL`と`DIRECT_URL`をコピーし貼り付け。
 6. `[YOUR-PASSWORD]`の部分を先ほど決めた`Database Password`を入力。
 prisma migrateを用いて、マイグレーションファイル（initファイル）を適用する。
 ```bash
