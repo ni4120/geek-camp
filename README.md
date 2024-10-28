@@ -11,7 +11,7 @@ npm run dev
 `app/page.tsx`を編集することでページの内容を変更できます。ファイルを編集するとページは自動的に更新されます（ホットリロード）。
 
 ## supabase設定
-1. [supanase](https://supabase.com/)にアクセス  
+1. [supabase](https://supabase.com/)にアクセス  
 2. `New project`で新規プロジェクトを作成。
 3. `Project Name`、`Database Password`、`Region`を設定し、Create new projectを押す。
 4. プロジェクトが作成されたら、右上にある緑色のconnectボタンをクリック。
