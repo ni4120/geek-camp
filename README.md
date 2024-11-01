@@ -1,11 +1,13 @@
 ## AI大喜利 アプリ
 
 AI大喜利アプリをクローン
+
 ```bash
 git clone git@github.com:ni4120/geek-camp.git
 ```
 
 node_modulesをインストール
+
 ```bash
 npm i
 ```
@@ -21,23 +23,28 @@ npm run dev
 `app/page.tsx`を編集することでページの内容を変更できます。ファイルを編集するとページは自動的に更新されます（ホットリロード）。
 
 ## supabase設定
-1. [supabase](https://supabase.com/)にアクセス  
+
+1. [supabase](https://supabase.com/)にアクセス
 2. `New project`で新規プロジェクトを作成。
 3. `Project Name`、`Database Password`、`Region`を設定し、Create new projectを押す。
 4. プロジェクトが作成されたら、右上にある緑色のconnectボタンをクリック。
 5. ORMsを選択し、`.env`ファイルを作成し`DATABASE_URL`と`DIRECT_URL`をコピーし貼り付け。
 6. `[YOUR-PASSWORD]`の部分を先ほど決めた`Database Password`を入力。
-prisma migrateを用いて、マイグレーションファイル（initファイル）を適用する。
+   prisma migrateを用いて、マイグレーションファイル（initファイル）を適用する。
+
 ```bash
 npx prisma migrate deploy
 ```
 
 ## Prisma ORM の使い方
+
 参考：[【入門】Prismaを始めるときに押さえておきたいポイントまとめ
 ](https://zenn.dev/shintaro/articles/e649722e41af4f)
 
 ### Prisma Schema
+
 例：[公式 Prisma Schema](https://www.prisma.io/docs/orm/prisma-schema/overview)
+
 ```prisma
 model User {
   id    Int     @id @default(autoincrement())
@@ -57,19 +64,24 @@ model Post {
 ```
 
 ### Prisma Client
-Prisma Clientは、Prisma Schemaから自動生成されるTypeScriptライブラリであり、これを使用してアプリケーションからデータベースにアクセスできます。  
-``` typescript
-import { db } from "@/db"
+
+Prisma Clientは、Prisma Schemaから自動生成されるTypeScriptライブラリであり、これを使用してアプリケーションからデータベースにアクセスできます。
+
+```typescript
+import { db } from "@/db";
 
 // ユーザーを作成
 const user = await db.user.create({
   data: {
-    name: 'kaimu',
+    name: "kaimu",
   },
-})
+});
 ```
+
 ### Prisma Migrate
+
 データベースのスキーマ変更履歴を管理するツールです。
+
 ```bash
 # マイグレーションファイルを生成
 npx prisma migrate dev --name add_user_role
@@ -79,7 +91,9 @@ npx prisma migrate deploy
 ```
 
 ### Prisma Studio
+
 データベースの内容を視覚的に確認・編集できるGUIツールです。
+
 ```bash
 npx prisma studio
 ```
