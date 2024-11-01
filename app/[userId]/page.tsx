@@ -1,8 +1,9 @@
 import RoomForm from "@/components/room-form";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const UserIdPage = ({ params }: { params: { userId: string } }) => {
   /** ホストユーザーのみアクセス可能にする処理が必要 */
+  console.log(params)
   return (
     <main className="flex h-full justify-center items-center">
       <div className="flex flex-col items-center justify-center space-y-14">
