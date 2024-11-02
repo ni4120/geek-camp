@@ -4,17 +4,23 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Check, Copy } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ShareUrlFormProps {
-  url: string;
+  url?: string;
 }
 
 const ShareUrlForm = ({ url }: ShareUrlFormProps) => {
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
+
+  if (!url) {
+    router.push("/");
+  }
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(url!);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
