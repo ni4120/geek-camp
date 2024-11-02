@@ -50,6 +50,7 @@ model RoomUsers {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId String  @db.Uuid
   roomId String  @db.Uuid
+  created_at DateTime @default(now())
   user    User    @relation("UserRoomUsers",fields: [userId], references: [id])
   room    Rooms    @relation("RoomRoomUsers",fields: [roomId], references: [id])
 
