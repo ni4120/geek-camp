@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -46,7 +46,7 @@ const RoomForm = ({ userId }: RoomFormProps) => {
       });
       const roomId = response.data.id;
       console.log("room created:", response.data);
-      router.push(`/create/${userId}/${roomId}`)
+      router.push(`/create/${userId}/${roomId}`);
     } catch (error) {
       console.error("Error creating room:", error);
     }
