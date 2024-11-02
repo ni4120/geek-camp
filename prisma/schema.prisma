@@ -19,6 +19,7 @@ model User {
   name String
   role Role
   room Rooms? @relation("UserToRoom")
+  roomUsers RoomUsers[] @relation("UserRoomUsers")
 }
 
 enum Role {
@@ -34,10 +35,21 @@ model Rooms {
   name       String
   sharedUrl  String
   status     RoomStatus @default(WAITING)
+  roomUsers RoomUsers[] @relation("RoomRoomUsers")
 }
 
 enum RoomStatus {
   WAITING
   IN_PROGRESS
   COMPLETED
+}
+
+model RoomUsers {
+  id      String  @id @default(uuid()) @db.Uuid
+  userId String  @db.Uuid
+  roomId String  @db.Uuid
+  user    User    @relation("UserRoomUsers",fields: [userId], references: [id])
+  room    Rooms    @relation("RoomRoomUsers",fields: [roomId], references: [id])
+
+  @@unique([roomId, userId])
 }
