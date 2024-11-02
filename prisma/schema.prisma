@@ -20,6 +20,7 @@ model User {
   role Role
   room Rooms? @relation("UserToRoom")
   roomUsers RoomUsers[] @relation("UserRoomUsers")
+  answer Answers[] @relation("UserAnswers")
 }
 
 enum Role {
@@ -36,6 +37,7 @@ model Rooms {
   sharedUrl  String
   status     RoomStatus @default(WAITING)
   roomUsers RoomUsers[] @relation("RoomRoomUsers")
+  answer Answers[] @relation("RoomAnswers")
 }
 
 enum RoomStatus {
@@ -57,4 +59,19 @@ model RoomUsers {
 model Questions {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content String
+  answer Answers[] @relation("QuestionAnswers")
+}
+
+model Answers {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String @db.Uuid
+  roomId String @db.Uuid
+  questionId String @db.Uuid
+  content String
+  isCompleted Boolean
+  user User @relation("UserAnswers", fields: [userId], references: [id])
+  room Rooms @relation("RoomAnswers", fields: [roomId], references: [id])
+  question Questions @relation("QuestionAnswers",fields: [questionId], references: [id])
+
+  @@unique([questionId, userId])
 }
