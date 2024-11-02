@@ -14,23 +14,18 @@ interface PlayerCardProps {
   name: string;
 }
 
-const PlayerCard = ({
-  isPlayer,
-  userId,
-  name,
-}: PlayerCardProps) => {
-
+const PlayerCard = ({ isPlayer, userId, name }: PlayerCardProps) => {
   return (
     <>
       {isPlayer ? (
-        <PlayerForm userId={userId}/>
+        <PlayerForm userId={userId} />
       ) : (
         <Card className="w-[200px] h-[100px] flex justify-center items-center bg-slate-500">
           <span className="text-white text-xl font-bold">{name}</span>
         </Card>
       )}
     </>
-  )
+  );
 };
 
 export default PlayerCard;

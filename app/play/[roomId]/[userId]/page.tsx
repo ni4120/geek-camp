@@ -29,7 +29,7 @@ const PlayRoomIdAndUserIdPage = async ({
   ];
 
   /** ChatGPTにお題を生成してもらうAPIを叩くいてQuestinoテーブルからお題を取得する */
-  const content = "絶対に後悔する休日の過ごし方とは？"
+  const content = "絶対に後悔する休日の過ごし方とは？";
 
   /** Ansersテーブルから、Roomにいるユーザの回答情報を取得する */
 
