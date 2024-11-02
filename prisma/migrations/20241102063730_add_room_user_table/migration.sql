@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "RoomUsers" (
-    "id" UUID NOT NULL,
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "userId" UUID NOT NULL,
     "roomId" UUID NOT NULL,
 
