@@ -2,7 +2,7 @@ import UserForm from "@/components/user-form";
 
 const GuestRoomIdPage = ({ params }: { params: { roomId: string } }) => {
   /** TODO: roomIdから部屋の名前を取得する処理 */
-  console.log(params)
+  console.log(params);
   return (
     <main className="flex h-full justify-center items-center">
       <div className="flex flex-col items-center justify-center space-y-14">
