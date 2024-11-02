@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id   String @id @default(uuid())
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String
   role Role
   room Rooms? @relation("UserToRoom")
@@ -28,9 +28,9 @@ enum Role {
 
 
 model Rooms {
-  id         String   @id @default(uuid())
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   host       User     @relation("UserToRoom",fields: [hostId], references: [id])
-  hostId     String   @unique
+  hostId     String   @unique @db.Uuid
   name       String
   sharedUrl  String
   status     RoomStatus @default(WAITING)
