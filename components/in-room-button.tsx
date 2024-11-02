@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import axios from "axios";
 
 interface InRoomButtonProps {
   userId: string;
@@ -9,8 +10,16 @@ interface InRoomButtonProps {
 }
 const InRoomButton = ({ userId, roomId }: InRoomButtonProps) => {
   const router = useRouter();
-  const handleInRoom = () => {
-    router.push(`/entrance/${roomId}/${userId}`);
+  const handleInRoom = async () => {
+    try {
+      await axios.post("/api/roomUsers", {
+        userId: userId,
+        roomId: roomId,
+      });
+      router.push(`/entrance/${roomId}/${userId}`);
+    } catch (error) {
+      console.error("Error joining room:", error)
+    }
   };
   return (
     <Button variant="outline" onClick={handleInRoom} className="px-10">
