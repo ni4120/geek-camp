@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,14 +30,13 @@ interface RoomFormProps {
 }
 
 const RoomForm = ({ userId }: RoomFormProps) => {
-  console.log(`userId: ${userId}`);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
     },
   });
+  const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -44,7 +44,9 @@ const RoomForm = ({ userId }: RoomFormProps) => {
         name: values.name,
         hostId: userId,
       });
+      const roomId = response.data.id;
       console.log("room created:", response.data);
+      router.push(`/create/${userId}/${roomId}`);
     } catch (error) {
       console.error("Error creating room:", error);
     }

@@ -3,10 +3,14 @@
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 
-const InRoomButton = () => {
+interface InRoomButtonProps {
+  userId: string;
+  roomId: string;
+}
+const InRoomButton = ({ userId, roomId }: InRoomButtonProps) => {
   const router = useRouter();
   const handleInRoom = () => {
-    router.push("http://localhost:3000/entrance/{room_id}?u_id={user_id}");
+    router.push(`/entrance/${roomId}/${userId}`);
   };
   return (
     <Button variant="outline" onClick={handleInRoom} className="px-10">
