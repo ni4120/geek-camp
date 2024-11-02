@@ -13,12 +13,13 @@ const Entrance = () => {
     { id: 9, name: "Ivy" },
     { id: 10, name: "Jack" },
   ];
+  const participantNum = participants.length;
   return (
     <div className="flex flex-col space-y-10">
       <h2 className="text-3xl font-bold">{"[大喜利部屋名]"}部屋です</h2>
       <div className="w-full flex flex-col justify-center items-center">
         <h3 className="text-2xl font-semibold mb-4">参加者</h3>
-        <div>{"0"}/10</div>
+        <div>{participantNum}/10</div>
       </div>
       {/* 参加者リストの表示 */}
       <div className="grid grid-cols-2 gap-4">
