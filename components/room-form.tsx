@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
+import axios from "axios";
 
 const formSchema = z.object({
   name: z
@@ -23,7 +25,14 @@ const formSchema = z.object({
     .max(50),
 });
 
-const RoomForm = () => {
+interface RoomFormProps {
+  userId: string;
+}
+
+const RoomForm = ({ userId }: RoomFormProps) => {
+  const router = useRouter();
+  console.log(`userId: ${userId}`);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,11 +40,16 @@ const RoomForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // TODO: API request
-
-    /** {name: string} */
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const response = await axios.post("/api/rooms", {
+        name: values.name,
+        hostId: userId,
+      });
+      console.log("room created:", response.data);
+    } catch (error) {
+      console.error("Error creating room:", error);
+    }
   };
 
   return (
