@@ -46,6 +46,10 @@ const UserForm = ({ roomId }: UserFormProps) => {
         role: "USER",
       });
       const userId = response.data.id;
+      await axios.post("/api/roomUsers", {
+        userId: userId,
+        roomId: roomId,
+      });
       console.log("user created:", response.data);
       router.push(`/entrance/${roomId}/${userId}`);
     } catch {
