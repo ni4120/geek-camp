@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: Request) {
   const { name, hostId } = await req.json();
-  const sharedUrl = `${process.env.BASE_URL || "http://localhost:3000"}/room/${uuidv4()}`;
+  const sharedUrl = `${process.env.BASE_URL || "http://localhost:3000"}/guest/${uuidv4()}`;
 
   try {
     const room = await db.rooms.create({
