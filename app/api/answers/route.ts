@@ -1,6 +1,12 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
+type RoomUser = {
+  userId: string;
+  roomId: string;
+  id: string;
+};
+
 export async function POST(req: Request) {
   const { roomUsers, roomId, questionId } = await req.json();
 
@@ -10,7 +16,7 @@ export async function POST(req: Request) {
 
   try {
     await db.answers.createMany({
-      data: roomUsers.map((user: any) => ({
+      data: roomUsers.map((user: RoomUser) => ({
         userId: user.userId,
         roomId: roomId,
         questionId: questionId,
