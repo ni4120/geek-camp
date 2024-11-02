@@ -14,11 +14,11 @@ export async function POST(req: Request) {
       },
     });
 
-    const sharedUrl = `${process.env.BASE_URL || "http://localhost:3000"}/guest/${initialRoom.id}`
+    const sharedUrl = `${process.env.BASE_URL || "http://localhost:3000"}/guest/${initialRoom.id}`;
     const room = await db.rooms.update({
       where: { id: initialRoom.id },
       data: { sharedUrl: sharedUrl },
-    })
+    });
     return NextResponse.json(room);
   } catch {
     return NextResponse.json({ error: "Error creating room" }, { status: 500 });
