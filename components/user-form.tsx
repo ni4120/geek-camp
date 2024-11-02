@@ -40,7 +40,7 @@ const UserForm = ({ roomId }: UserFormProps) => {
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try{
+    try {
       const response = await axios.post("/api/users", {
         name: values.name,
         role: "USER",
@@ -49,7 +49,7 @@ const UserForm = ({ roomId }: UserFormProps) => {
       console.log("user created:", response.data);
       router.push(`/entrance/${roomId}/${userId}`);
     } catch {
-      console.log(Error)
+      console.log(Error);
     }
     /** {name: string} */
     console.log(values);

@@ -10,7 +10,7 @@ const GuestRoomIdPage = async ({ params }: { params: { roomId: string } }) => {
         <h2 className="text-3xl font-bold text-center">
           <span>{"[部屋の名前]"}</span>部屋に招待されました
         </h2>
-        <UserForm  roomId={roomId} />
+        <UserForm roomId={roomId} />
       </div>
     </main>
   );
