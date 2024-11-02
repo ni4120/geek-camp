@@ -49,7 +49,7 @@ const UserForm = ({ roomId }: UserFormProps) => {
       await axios.post("/api/roomUsers", {
         userId: userId,
         roomId: roomId,
-      })
+      });
       console.log("user created:", response.data);
       router.push(`/entrance/${roomId}/${userId}`);
     } catch {

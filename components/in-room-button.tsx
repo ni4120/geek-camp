@@ -18,7 +18,7 @@ const InRoomButton = ({ userId, roomId }: InRoomButtonProps) => {
       });
       router.push(`/entrance/${roomId}/${userId}`);
     } catch (error) {
-      console.error("Error joining room:", error)
+      console.error("Error joining room:", error);
     }
   };
   return (

@@ -13,6 +13,6 @@ export async function POST(req: Request) {
     });
     return new NextResponse(null, { status: 201 });
   } catch {
-    return NextResponse.json({ error: 'error joining room' })
+    return NextResponse.json({ error: "error joining room" });
   }
 }
