@@ -30,7 +30,6 @@ interface RoomFormProps {
 }
 
 const RoomForm = ({ userId }: RoomFormProps) => {
-  const router = useRouter();
   console.log(`userId: ${userId}`);
 
   const form = useForm<z.infer<typeof formSchema>>({
