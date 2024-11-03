@@ -23,7 +23,7 @@ interface PlayerFormProps {
   answerId: string;
 }
 
-const PlayerForm = ({ userId,answerId }: PlayerFormProps) => {
+const PlayerForm = ({ userId, answerId }: PlayerFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
