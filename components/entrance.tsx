@@ -74,8 +74,7 @@ const Entrance = ({ roomId, userId, room }: EntranceProps) => {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "RoomUsers" },
         (payload) => {
-          console.log("Change received!", payload);
-          if (payload.new.id === roomId) {
+          if (payload.new.roomId === roomId) {
             fetchRoomUsers();
           }
         },
@@ -88,7 +87,6 @@ const Entrance = ({ roomId, userId, room }: EntranceProps) => {
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "Rooms" },
         (payload) => {
-          console.log("Change received!", payload);
           if (
             payload.new.id === roomId &&
             payload.new.status === "IN_PROGRESS"
@@ -104,7 +102,6 @@ const Entrance = ({ roomId, userId, room }: EntranceProps) => {
       supabase.removeChannel(roomsChannel);
     };
   }, [supabase]);
-  console.log(participants);
 
   const participantNum = participants.length;
   return (
