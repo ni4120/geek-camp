@@ -12,6 +12,7 @@ import {
 import { Input } from "./ui/input";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
+import axios from "axios";
 
 const formSchema = z.object({
   content: z.string().min(1, { message: "回答を入力してください。" }).max(200),
@@ -19,9 +20,10 @@ const formSchema = z.object({
 
 interface PlayerFormProps {
   userId: string;
+  answerId: string;
 }
 
-const PlayerForm = ({ userId }: PlayerFormProps) => {
+const PlayerForm = ({ userId,answerId }: PlayerFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,9 +32,14 @@ const PlayerForm = ({ userId }: PlayerFormProps) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // TODO: API request
-    console.log(values);
-    console.log(`userId: ${userId}`);
+    try {
+      const response = await axios.patch(`/api/answers/${answerId}`, {
+        content: values.content,
+      });
+      console.log("Answer updated:", response.data);
+    } catch {
+      console.error("Failed to update answer:", Error);
+    }
   };
   return (
     <div className="flex flex-col items-center">
