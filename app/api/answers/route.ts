@@ -22,6 +22,7 @@ export async function POST(req: Request) {
         questionId: questionId,
         content: "",
         isCompleted: false,
+        isJudgment: false,
       })),
     });
 
