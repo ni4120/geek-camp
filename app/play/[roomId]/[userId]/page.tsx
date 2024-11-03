@@ -1,5 +1,6 @@
 import DisplayTopic from "@/components/display-topic";
 import PlayerCard from "@/components/player-card";
+import { getLatestQuestion } from "@/data/questions";
 
 interface PlayRoomAndUserIdPageProps {
   params: {
@@ -29,13 +30,13 @@ const PlayRoomIdAndUserIdPage = async ({
   ];
 
   /** ChatGPTにお題を生成してもらうAPIを叩くいてQuestinoテーブルからお題を取得する */
-  const content = "絶対に後悔する休日の過ごし方とは？";
+  const question = await getLatestQuestion();
 
   /** Ansersテーブルから、Roomにいるユーザの回答情報を取得する */
 
   return (
     <main className="flex flex-col w-full h-full justify-center items-center">
-      <DisplayTopic content={content} />
+      <DisplayTopic question={question} />
       <div className="grid grid-rows-2 grid-cols-5 gap-x-8 gap-y-10 mt-8">
         {participants.map((participant) => {
           const isPlayer = participant.id === userId;
