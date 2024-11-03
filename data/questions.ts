@@ -12,3 +12,15 @@ export const getLatestQuestion = async () => {
     return null;
   }
 };
+
+export const getQuestionById = async (questionId: string) => {
+  try {
+    const question = await db.questions.findUnique({
+      where: { id: questionId }
+    })
+
+    return question
+  } catch {
+    return null
+  }
+}
