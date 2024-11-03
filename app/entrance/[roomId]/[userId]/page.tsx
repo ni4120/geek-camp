@@ -17,7 +17,7 @@ const EntranceRoomIdAndUserIdPage = async ({
   /** TODO: 部屋に参加しているusers情報をリアルタイムで取得 */
   return (
     <main className="flex h-full justify-center items-center">
-      <Entrance />
+      <Entrance roomId={roomId} />
     </main>
   );
 };
