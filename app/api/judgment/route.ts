@@ -3,7 +3,6 @@ import { getQuestionById } from "@/data/questions";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { join } from "path";
 
 export async function POST(req: Request) {
   const { roomId, questionId } = await req.json();
