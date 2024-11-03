@@ -23,7 +23,9 @@ const PlayRoomIdAndUserIdPage = async ({
   if (question) {
     const answers = await getAnswersByRoomIdAndQuestionId(roomId, question.id);
 
-    const isAIJudgment = answers ? answers.some(answer => answer.isJudgment) : false;
+    const isAIJudgment = answers
+      ? answers.some((answer) => answer.isJudgment)
+      : false;
 
     console.log(`initialAnswers: ${answers}`);
 

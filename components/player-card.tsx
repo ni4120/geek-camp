@@ -15,14 +15,19 @@ interface PlayerCardProps {
   isAIJudgment: boolean;
 }
 
-const PlayerCard = ({ isPlayer, userId, answer, isAIJudgment }: PlayerCardProps) => {
+const PlayerCard = ({
+  isPlayer,
+  userId,
+  answer,
+  isAIJudgment,
+}: PlayerCardProps) => {
   if (isAIJudgment) {
     const backgroundColor = answer.isJudgment ? "bg-yellow-100" : "bg-white";
     return (
-      <Card className={`w-[200px] h-[150px] flex flex-col justify-center items-center bg-white ${backgroundColor} p-4`}>
-        <span className="text-black text-xl font-bold">
-          {answer.user.name}
-        </span>
+      <Card
+        className={`w-[200px] h-[150px] flex flex-col justify-center items-center bg-white ${backgroundColor} p-4`}
+      >
+        <span className="text-black text-xl font-bold">{answer.user.name}</span>
         <p className="text-black mt-2">
           {answer.content ? answer.content : "回答なし"}
         </p>

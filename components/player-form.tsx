@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,7 +27,7 @@ interface PlayerFormProps {
 }
 
 const PlayerForm = ({ userId, answerId }: PlayerFormProps) => {
-  const [isSubmit, setIsSubmit] = useState(false)
+  const [isSubmit, setIsSubmit] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,7 +41,7 @@ const PlayerForm = ({ userId, answerId }: PlayerFormProps) => {
         content: values.content,
       });
       console.log("Answer updated:", response.data);
-      setIsSubmit(true)
+      setIsSubmit(true);
     } catch {
       console.error("Failed to update answer:", Error);
     }
