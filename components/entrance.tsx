@@ -19,7 +19,6 @@ interface RoomUsers {
   };
 }
 
-
 interface Room {
   id: string;
   hostId: string;
