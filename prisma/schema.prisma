@@ -60,6 +60,7 @@ model RoomUsers {
 model Questions {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content String
+  createdAt DateTime  @default(now())
   answer Answers[] @relation("QuestionAnswers")
 }
 
