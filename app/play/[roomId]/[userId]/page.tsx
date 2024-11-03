@@ -16,7 +16,7 @@ const PlayRoomIdAndUserIdPage = async ({
   params,
 }: PlayRoomAndUserIdPageProps) => {
   const { userId, roomId } = await params;
-  const room = await getRoomByRoomId(roomId)
+  const room = await getRoomByRoomId(roomId);
 
   /** ChatGPTにお題を生成してもらうAPIを叩くいてQuestinoテーブルからお題を取得する */
   const question = await getLatestQuestion();
