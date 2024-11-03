@@ -40,7 +40,6 @@ const Entrance = ({ roomId }: EntranceProps) => {
 
     const channel = supabase.channel(`realtime: RoomUsers`).on("postgres_changes", { event: "INSERT", schema: "public", table: "RoomUsers" }, (payload) => {
       console.log('Change received!', payload);
-      console.log('a')
 
       fetchRoomUsers();
     })
