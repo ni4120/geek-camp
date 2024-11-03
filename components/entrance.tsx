@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabaseClient";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 interface EntranceProps {
   roomId: string;
@@ -14,6 +15,7 @@ interface EntranceProps {
 
 interface RoomUsers {
   userId: string;
+  roomId: string;
   user: {
     name: string;
   };
@@ -28,7 +30,25 @@ interface Room {
 }
 
 const Entrance = ({ roomId, userId, room }: EntranceProps) => {
+  const router = useRouter();
   const [participants, setParticipants] = useState<RoomUsers[]>([]);
+
+  const handleEntrance = async () => {
+    try {
+      const questionResponse = await axios.post("/api/questions");
+      await axios.post("/api/answers", {
+        roomUsers: participants,
+        roomId: roomId,
+        questionId: questionResponse.data.id,
+      });
+
+      await axios.patch(`/api/rooms/${roomId}`, {
+        status: "IN_PROGRESS",
+      });
+    } catch (error) {
+      console.log("Error joining game room:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchRoomUsers = async () => {
@@ -48,23 +68,40 @@ const Entrance = ({ roomId, userId, room }: EntranceProps) => {
     };
     fetchRoomUsers();
 
-    const channel = supabase
+    const roomUsersChannel = supabase
       .channel(`realtime: RoomUsers`)
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "RoomUsers" },
         (payload) => {
           console.log("Change received!", payload);
+          if (payload.new.id === roomId) {
+            fetchRoomUsers();
+          }
+        },
+      )
+      .subscribe();
 
-          fetchRoomUsers();
+    const roomsChannel = supabase
+      .channel("realtime: Rooms")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Rooms" },
+        (payload) => {
+          console.log("Change received!", payload);
+          if (payload.new.id === roomId) {
+            router.push(`/play/${roomId}/${userId}`);
+          }
         },
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(roomUsersChannel);
+      supabase.removeChannel(roomsChannel);
     };
   }, [supabase]);
+  console.log(participants);
 
   const participantNum = participants.length;
   return (
@@ -83,7 +120,7 @@ const Entrance = ({ roomId, userId, room }: EntranceProps) => {
         ))}
       </div>
       {room.hostId === userId && (
-        <Button type="submit" variant="outline">
+        <Button onClick={handleEntrance} variant="outline">
           開始
         </Button>
       )}
