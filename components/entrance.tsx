@@ -89,7 +89,10 @@ const Entrance = ({ roomId, userId, room }: EntranceProps) => {
         { event: "UPDATE", schema: "public", table: "Rooms" },
         (payload) => {
           console.log("Change received!", payload);
-          if (payload.new.id === roomId && payload.new.status === "IN_PROGRESS") {
+          if (
+            payload.new.id === roomId &&
+            payload.new.status === "IN_PROGRESS"
+          ) {
             router.push(`/play/${roomId}/${userId}`);
           }
         },
