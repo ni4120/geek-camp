@@ -18,7 +18,7 @@ const PlayerCard = ({ isPlayer, userId, answer }: PlayerCardProps) => {
   return (
     <>
       {isPlayer ? (
-        <PlayerForm userId={userId} />
+        <PlayerForm userId={userId} answerId={answer.id} />
       ) : (
         <Card className="w-[200px] h-[100px] flex justify-center items-center bg-slate-500">
           <span className="text-white text-xl font-bold">
