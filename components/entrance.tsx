@@ -4,20 +4,29 @@ import { SortOrder } from "@/app/api/roomUsers/route";
 import { supabase } from "@/lib/supabaseClient";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 
 interface EntranceProps {
   roomId: string;
+  userId: string;
 }
 
-interface roomUsers {
+interface RoomUsers {
   userId: string;
   user: {
     name: string;
   };
 }
 
-const Entrance = ({ roomId }: EntranceProps) => {
-  const [participants, setParticipants] = useState<roomUsers[]>([]);
+interface Room {
+  hostId: string;
+  name: string;
+  status: string;
+}
+
+const Entrance = ({ roomId, userId }: EntranceProps) => {
+  const [participants, setParticipants] = useState<RoomUsers[]>([]);
+  const [room, setRoom] = useState<Room>();
 
   useEffect(() => {
     const fetchRoomUsers = async () => {
@@ -36,6 +45,20 @@ const Entrance = ({ roomId }: EntranceProps) => {
       }
     };
     fetchRoomUsers();
+
+    const fetchRoom = async () => {
+      try {
+        console.log(roomId)
+        const response = await axios.get(`/api/rooms/${roomId}`)
+
+        const room = response.data;
+        setRoom(room)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchRoom()
 
     const channel = supabase
       .channel(`realtime: RoomUsers`)
@@ -56,21 +79,26 @@ const Entrance = ({ roomId }: EntranceProps) => {
   }, [supabase]);
 
   const participantNum = participants.length;
+  console.log(room)
   return (
     <div className="flex flex-col space-y-10">
-      <h2 className="text-3xl font-bold">{"[大喜利部屋名]"}部屋です</h2>
+      <h2 className="text-3xl font-bold">{`${room?.name}部屋です`}</h2>
       <div className="w-full flex flex-col justify-center items-center">
         <h3 className="text-2xl font-semibold mb-4">参加者</h3>
         <div>{participantNum}/10</div>
       </div>
-      {/* 参加者リストの表示 */}
-      <div className="grid grid-cols-2 gap-4">
+      {/* 参加者リストの表示 */} <div className="grid grid-cols-2 gap-4">
         {participants.map((participant) => (
           <div key={participant.userId} className="border p-2 text-center">
             {participant.user.name}
           </div>
         ))}
       </div>
+      {room?.hostId === userId && (
+        <Button type="submit" variant="outline">
+          開始
+        </Button>
+      )}
     </div>
   );
 };
