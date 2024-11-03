@@ -2,6 +2,8 @@ import DisplayTopic from "@/components/display-topic";
 import PlayerCard from "@/components/player-card";
 import { getAnswersByRoomIdAndQuestionId } from "@/data/answers";
 import { getLatestQuestion } from "@/data/questions";
+import JudgmentButton from "@/components/judgment-button";
+import { getRoomByRoomId } from "@/data/rooms";
 
 interface PlayRoomAndUserIdPageProps {
   params: {
@@ -14,6 +16,7 @@ const PlayRoomIdAndUserIdPage = async ({
   params,
 }: PlayRoomAndUserIdPageProps) => {
   const { userId, roomId } = await params;
+  const room = await getRoomByRoomId(roomId)
 
   /** ChatGPTにお題を生成してもらうAPIを叩くいてQuestinoテーブルからお題を取得する */
   const question = await getLatestQuestion();
@@ -43,6 +46,10 @@ const PlayRoomIdAndUserIdPage = async ({
             <div>情報を取得できませんでした</div>
           )}
         </div>
+        {/** ホストユーザーのみアクセス可能にする */}
+        {userId === room?.hostId && (
+          <JudgmentButton roomId={roomId} questionId={question.id} />
+        )}
       </main>
     );
   } else {
