@@ -40,6 +40,7 @@ const PlayerForm = ({ userId, answerId }: PlayerFormProps) => {
     } catch {
       console.error("Failed to update answer:", Error);
     }
+    console.log(`userId: ${userId}`);
   };
   return (
     <div className="flex flex-col items-center">
