@@ -71,6 +71,7 @@ model Answers {
   questionId String @db.Uuid
   content String
   isCompleted Boolean
+  isJudgment Boolean
   user User @relation("UserAnswers", fields: [userId], references: [id])
   room Rooms @relation("RoomAnswers", fields: [roomId], references: [id])
   question Questions @relation("QuestionAnswers",fields: [questionId], references: [id])
