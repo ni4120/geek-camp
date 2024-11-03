@@ -22,7 +22,7 @@ export async function PATCH(
     });
 
     return NextResponse.json(updatedAnswer, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to update answer" },
       { status: 500 },
