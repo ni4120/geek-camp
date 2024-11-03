@@ -1,4 +1,5 @@
 import Entrance from "@/components/entrance";
+import { getRoomByRoomId } from "@/data/rooms";
 
 interface EntranceRoomIdPageProps {
   params: {
@@ -12,10 +13,10 @@ const EntranceRoomIdAndUserIdPage = async ({
 }: EntranceRoomIdPageProps) => {
   /** paramsから`roomId`と`userId`を取得 */
   const { roomId, userId } = await params;
-  /** TODO: 部屋に参加しているusers情報をリアルタイムで取得 */
+  const room = await getRoomByRoomId(roomId)
   return (
     <main className="flex h-full justify-center items-center">
-      <Entrance roomId={roomId} userId={userId} />
+      <Entrance roomId={roomId} userId={userId} room={room} />
     </main>
   );
 };
