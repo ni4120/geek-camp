@@ -11,7 +11,7 @@ interface ResultButtonProps {
 const JudgmentButton = ({ roomId, questionId }: ResultButtonProps) => {
   const handleResult = async () => {
     try {
-      await axios.post("/api/result", {
+      await axios.post("/api/judgment", {
         roomId: roomId,
         questionId: questionId,
       });
