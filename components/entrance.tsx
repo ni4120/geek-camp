@@ -4,20 +4,31 @@ import { SortOrder } from "@/app/api/roomUsers/route";
 import { supabase } from "@/lib/supabaseClient";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 
 interface EntranceProps {
   roomId: string;
+  userId: string;
+  room: Room;
 }
 
-interface roomUsers {
+interface RoomUsers {
   userId: string;
   user: {
     name: string;
   };
 }
 
-const Entrance = ({ roomId }: EntranceProps) => {
-  const [participants, setParticipants] = useState<roomUsers[]>([]);
+interface Room {
+  id: string;
+  hostId: string;
+  name: string;
+  sharedUrl: string;
+  status: string;
+}
+
+const Entrance = ({ roomId, userId, room }: EntranceProps) => {
+  const [participants, setParticipants] = useState<RoomUsers[]>([]);
 
   useEffect(() => {
     const fetchRoomUsers = async () => {
@@ -58,7 +69,7 @@ const Entrance = ({ roomId }: EntranceProps) => {
   const participantNum = participants.length;
   return (
     <div className="flex flex-col space-y-10">
-      <h2 className="text-3xl font-bold">{"[大喜利部屋名]"}部屋です</h2>
+      <h2 className="text-3xl font-bold">{`${room.name}部屋です`}</h2>
       <div className="w-full flex flex-col justify-center items-center">
         <h3 className="text-2xl font-semibold mb-4">参加者</h3>
         <div>{participantNum}/10</div>
@@ -71,6 +82,11 @@ const Entrance = ({ roomId }: EntranceProps) => {
           </div>
         ))}
       </div>
+      {room.hostId === userId && (
+        <Button type="submit" variant="outline">
+          開始
+        </Button>
+      )}
     </div>
   );
 };
