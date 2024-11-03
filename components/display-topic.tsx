@@ -7,8 +7,6 @@ interface DisplayTopicProps {
 }
 
 const DisplayTopic = ({ content }: DisplayTopicProps) => {
-  const router = useRouter();
-
   return (
     <div className="mr-4 text-3xl font-bold">
       お題
