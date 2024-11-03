@@ -29,7 +29,6 @@ const Entrance = ({ roomId }: EntranceProps) => {
             limit: 10,
           },
         });
-        console.log(response);
         const roomUsers = response.data;
         setParticipants(roomUsers || []);
       } catch (error) {
