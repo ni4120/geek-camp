@@ -5,9 +5,9 @@ export enum SortOrder {
   DESC = "desc",
 }
 
-export const getRoomUsersByRoomId = (roomId: string, orderBy?: SortOrder, limit?: number) => {
+export const getRoomUsersByRoomId = async (roomId: string, orderBy?: SortOrder, limit?: number) => {
   try {
-    const roomUsers = db.roomUsers.findMany({
+    const roomUsers = await db.roomUsers.findMany({
       where: {
         roomId: roomId,
       },
