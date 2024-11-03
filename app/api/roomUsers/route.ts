@@ -41,6 +41,7 @@ export async function GET(req: Request) {
       ...(limit ? { take: limit } : {}),
       select: {
         userId: true,
+        roomId: true,
         user: {
           select: {
             name: true,
