@@ -1,18 +1,60 @@
 "use client";
 
-const Entrance = () => {
-  const participants = [
-    { id: 1, name: "Alice" },
-    { id: 2, name: "Bob" },
-    { id: 3, name: "Charlie" },
-    { id: 4, name: "David" },
-    { id: 5, name: "Eve" },
-    { id: 6, name: "Frank" },
-    { id: 7, name: "Grace" },
-    { id: 8, name: "Hannah" },
-    { id: 9, name: "Ivy" },
-    { id: 10, name: "Jack" },
-  ];
+import { SortOrder } from "@/app/api/roomUsers/route";
+import { supabase } from "@/lib/supabaseClient";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface EntranceProps {
+  roomId: string;
+}
+
+interface roomUsers {
+  userId: string;
+  user: {
+    name: string;
+  };
+}
+
+const Entrance = ({ roomId }: EntranceProps) => {
+  const [participants, setParticipants] = useState<roomUsers[]>([]);
+
+  useEffect(() => {
+    const fetchRoomUsers = async () => {
+      try {
+        const response = await axios.get("/api/roomUsers", {
+          params: {
+            roomId: roomId,
+            orderBy: SortOrder.ASC,
+            limit: 10,
+          },
+        });
+        const roomUsers = response.data;
+        setParticipants(roomUsers || []);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRoomUsers();
+
+    const channel = supabase
+      .channel(`realtime: RoomUsers`)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "RoomUsers" },
+        (payload) => {
+          console.log("Change received!", payload);
+
+          fetchRoomUsers();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase]);
+
   const participantNum = participants.length;
   return (
     <div className="flex flex-col space-y-10">
@@ -24,8 +66,8 @@ const Entrance = () => {
       {/* 参加者リストの表示 */}
       <div className="grid grid-cols-2 gap-4">
         {participants.map((participant) => (
-          <div key={participant.id} className="border p-2 text-center">
-            {participant.name}
+          <div key={participant.userId} className="border p-2 text-center">
+            {participant.user.name}
           </div>
         ))}
       </div>
