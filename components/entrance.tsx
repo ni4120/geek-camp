@@ -6,14 +6,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface EntranceProps {
-  roomId: string
+  roomId: string;
 }
 
 interface roomUsers {
   userId: string;
   user: {
     name: string;
-  }
+  };
 }
 
 const Entrance = ({ roomId }: EntranceProps) => {
@@ -29,27 +29,32 @@ const Entrance = ({ roomId }: EntranceProps) => {
             limit: 10,
           },
         });
-        console.log(response)
-        const roomUsers = response.data
+        console.log(response);
+        const roomUsers = response.data;
         setParticipants(roomUsers || []);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
     fetchRoomUsers();
 
-    const channel = supabase.channel(`realtime: RoomUsers`).on("postgres_changes", { event: "INSERT", schema: "public", table: "RoomUsers" }, (payload) => {
-      console.log('Change received!', payload);
+    const channel = supabase
+      .channel(`realtime: RoomUsers`)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "RoomUsers" },
+        (payload) => {
+          console.log("Change received!", payload);
 
-      fetchRoomUsers();
-    })
-      .subscribe()
+          fetchRoomUsers();
+        },
+      )
+      .subscribe();
 
     return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [supabase])
-
+      supabase.removeChannel(channel);
+    };
+  }, [supabase]);
 
   const participantNum = participants.length;
   return (

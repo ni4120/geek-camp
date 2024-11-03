@@ -25,13 +25,13 @@ export enum SortOrder {
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
-  const roomId = searchParams.get('roomId');
+  const roomId = searchParams.get("roomId");
   if (!roomId) {
     return NextResponse.json({ error: "roomId is required" }, { status: 400 });
   }
-  const orderBy = searchParams.get('orderBy') as SortOrder;
-  const limitParam = searchParams.get('limit')
-  const limit = limitParam !== null ? parseInt(limitParam) : undefined
+  const orderBy = searchParams.get("orderBy") as SortOrder;
+  const limitParam = searchParams.get("limit");
+  const limit = limitParam !== null ? parseInt(limitParam) : undefined;
   try {
     const roomUsers = await db.roomUsers.findMany({
       where: {
@@ -49,9 +49,10 @@ export async function GET(req: Request) {
       },
     });
     return NextResponse.json(roomUsers, { status: 200 });
-  }
-  catch {
-    return NextResponse.json({ error: "Error fetching room users" })
+  } catch {
+    return NextResponse.json(
+      { error: "Error fetching room users" },
+      { status: 500 },
+    );
   }
 }
-
