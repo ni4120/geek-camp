@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 interface EntranceProps {
   roomId: string;
   userId: string;
-  room: Room
+  room: Room;
 }
 
 interface RoomUsers {
@@ -19,18 +19,12 @@ interface RoomUsers {
   };
 }
 
-enum RoomStatus {
-  WAITING = 'WAITING',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED',
-}
-
 interface Room {
   id: string;
   hostId: string;
   name: string;
-  sharedUrl: string,
-  status: RoomStatus;
+  sharedUrl: string;
+  status: string;
 }
 
 const Entrance = ({ roomId, userId, room }: EntranceProps) => {
@@ -80,7 +74,8 @@ const Entrance = ({ roomId, userId, room }: EntranceProps) => {
         <h3 className="text-2xl font-semibold mb-4">参加者</h3>
         <div>{participantNum}/10</div>
       </div>
-      {/* 参加者リストの表示 */} <div className="grid grid-cols-2 gap-4">
+      {/* 参加者リストの表示 */}{" "}
+      <div className="grid grid-cols-2 gap-4">
         {participants.map((participant) => (
           <div key={participant.userId} className="border p-2 text-center">
             {participant.user.name}
