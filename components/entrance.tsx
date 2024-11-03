@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 interface EntranceProps {
   roomId: string;
   userId: string;
+  room: Room
 }
 
 interface RoomUsers {
@@ -18,15 +19,22 @@ interface RoomUsers {
   };
 }
 
-interface Room {
-  hostId: string;
-  name: string;
-  status: string;
+enum RoomStatus {
+  WAITING = 'WAITING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
 }
 
-const Entrance = ({ roomId, userId }: EntranceProps) => {
+interface Room {
+  id: string;
+  hostId: string;
+  name: string;
+  sharedUrl: string,
+  status: RoomStatus;
+}
+
+const Entrance = ({ roomId, userId, room }: EntranceProps) => {
   const [participants, setParticipants] = useState<RoomUsers[]>([]);
-  const [room, setRoom] = useState<Room>();
 
   useEffect(() => {
     const fetchRoomUsers = async () => {
@@ -45,20 +53,6 @@ const Entrance = ({ roomId, userId }: EntranceProps) => {
       }
     };
     fetchRoomUsers();
-
-    const fetchRoom = async () => {
-      try {
-        console.log(roomId)
-        const response = await axios.get(`/api/rooms/${roomId}`)
-
-        const room = response.data;
-        setRoom(room)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    fetchRoom()
 
     const channel = supabase
       .channel(`realtime: RoomUsers`)
@@ -79,10 +73,9 @@ const Entrance = ({ roomId, userId }: EntranceProps) => {
   }, [supabase]);
 
   const participantNum = participants.length;
-  console.log(room)
   return (
     <div className="flex flex-col space-y-10">
-      <h2 className="text-3xl font-bold">{`${room?.name}部屋です`}</h2>
+      <h2 className="text-3xl font-bold">{`${room.name}部屋です`}</h2>
       <div className="w-full flex flex-col justify-center items-center">
         <h3 className="text-2xl font-semibold mb-4">参加者</h3>
         <div>{participantNum}/10</div>
@@ -94,7 +87,7 @@ const Entrance = ({ roomId, userId }: EntranceProps) => {
           </div>
         ))}
       </div>
-      {room?.hostId === userId && (
+      {room.hostId === userId && (
         <Button type="submit" variant="outline">
           開始
         </Button>
